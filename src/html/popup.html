@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BC Object Viewer</title>
+        <link rel="stylesheet" href="../styles/styles.css" />
+    </head>
+    <body>
+        <div class="container">
+            <img src="../icons/settings.png" class="settings-icon" id="settingsButton"/>
+            <div class="spice"></div>
+            <div class="spice2"></div>
+            <h2>BC Object Viewer</h2>
+            <label for="objectType">Object Type:</label>
+            <select id="objectType">
+                <option value="table">Table</option>
+                <option value="page">Page</option>
+                <option value="report">Report</option>
+            </select>
+            <label for="objectName">Object Name:</label>
+            <input type="text" id="objectName" placeholder="Object Name" />
+            <div class="dropdown-container">
+                <div class="dropdown-content" id="nameDropdown"></div>
+            </div>
+            <label for="objectId">Object ID:</label>
+            <input type="text" id="objectId" placeholder="Object ID" />
+            <span id="objectIdError" class="error-message">-</span>
+            <button id="openButton">Open</button>
+            <div class="spice3"></div>
+        </div>
+    </body>
+    <script type="module" src="../scripts/script.js"></script>
+    <script type="module" src="../data/tables.js"></script>
+    <script type="module" src="../data/pages.js"></script>
+    <script type="module" src="../data/reports.js"></script>
+</html>
