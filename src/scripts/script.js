@@ -5,23 +5,35 @@ import reports from '../data/reports.js'
 var objects = tables;
 
 // Global variables
+const root = document.documentElement;
+const settingsButton = document.getElementById('settingsButton');
 const objectTypeInput = document.getElementById('objectType');
 const objectNameInput = document.getElementById('objectName');
-const settingsButton = document.getElementById('settingsButton');
 const objectIdInput = document.getElementById('objectId');
-const nameDropdown = document.getElementById('nameDropdown');
-const openButton = document.getElementById('openButton')
-const container = document.querySelector('.container');
 const errorMsg = document.getElementById('objectIdError');
+const openButton = document.getElementById('openButton');
+const card = document.getElementById('card');
+const saveButton = document.getElementById('saveButton');
+const defaultObjectType = document.getElementById('defaultObjectType');
+const darkModeCheck = document.getElementById('darkMode');
+const addSpice = document.getElementById('addSpiceCheck');
+const spiceColorPicker = document.getElementById('colorPicker');
+const nameDropdown = document.getElementById('nameDropdown');
 let selectedDropdownItem = -1;
 let filteredNames = [];
 let errorState = false;
+let settingsOpen = false;
 
-settingsButton.addEventListener('click', function () {
-    container.classList.toggle('flipped');
+loadSettings();
+
+// Event Listeners
+settingsButton.addEventListener('click', flipCard);
+
+saveButton.addEventListener('click', () => {
+    saveSettings();
+    flipCard();
 });
 
-// Object Type
 objectTypeInput.addEventListener('change', () => {
     setObjectType();
     reset();
@@ -30,7 +42,6 @@ objectTypeInput.addEventListener('click', function (event) {
     closeDropdown();
 });
 
-// Object Name
 objectNameInput.addEventListener('input', function (event) {
     if (objectNameInput.value.trim() === '') {
         reset();
@@ -39,10 +50,6 @@ objectNameInput.addEventListener('input', function (event) {
     openDropdown(event);
 });
 objectNameInput.addEventListener('blur', function (event) {
-    // // if ((event.target.value.trim() === '') || (objectIdInput.value.trim() === '')) {
-    //     closeDropdown();
-    // }
-    // console.log(event);
     if (event.relatedTarget !== null) {
         closeDropdown();
     }
@@ -56,7 +63,6 @@ objectNameInput.addEventListener('keydown', function (event) {
     navigateDropdown(event);
 });
 
-// Object Id
 objectIdInput.addEventListener('keyup', function (event) {
     if (event.key == 'Enter') {
         validateObjectId(event);
@@ -72,12 +78,10 @@ objectIdInput.addEventListener('input', function (event) {
     }
 });
 
-// Open Button
 openButton.addEventListener('click', function () {
     OpenURL();
 });
 
-// Dropdown
 nameDropdown.addEventListener('click', function (event) {
     selectClickedDropdownItem(event);
 });
@@ -90,22 +94,99 @@ document.addEventListener('keydown', function (event) {
         }
     }
 });
-document.addEventListener('click', function (event) {
-    // Check if the click event occurred inside the dropdown or input elements
-    const isInsideDropdown = nameDropdown.contains(event.target);
-    const isObjectNameInput = objectNameInput.contains(event.target);
-    const isObjectIdInput = objectIdInput.contains(event.target);
 
-    // Handle the click event inside the dropdown
-    if (isInsideDropdown && !isObjectNameInput && !isObjectIdInput) {
+document.addEventListener('click', function (event) {
+    if (nameDropdown.contains(event.target)) {
         selectClickedDropdownItem(event);
     } else {
-        // Close the dropdown if the click event occurred outside the dropdown or input elements
         closeDropdown();
     }
 });
 
+darkModeCheck.addEventListener('change', toggleDarkmode);
+addSpice.addEventListener('change', toggleSpice);
+spiceColorPicker.addEventListener('input', setSpiceColor);
+
 // Functions
+function loadSettings() {
+    const defaultObjectTypeValue = localStorage.getItem('defaultObjectType');
+    if (defaultObjectTypeValue !== null) {
+        defaultObjectType.value = defaultObjectTypeValue;
+        objectTypeInput.value = defaultObjectTypeValue;
+        setObjectType();
+    }
+    darkModeCheck.checked = localStorage.getItem('darkMode') === 'true';
+    toggleDarkmode();
+    addSpice.checked = localStorage.getItem('addSpice') === 'true';
+    toggleSpice();
+    var spiceColor = localStorage.getItem('spiceColor');
+    if (spiceColor === null) {
+        spiceColor = '#018ea7';
+    }
+    spiceColorPicker.value = spiceColor;
+    setSpiceColor();
+}
+
+function saveSettings() {
+    localStorage.setItem('defaultObjectType', defaultObjectType.value);
+    localStorage.setItem('darkMode', darkModeCheck.checked);
+    localStorage.setItem('addSpice', addSpice.checked);
+    localStorage.setItem('spiceColor', spiceColorPicker.value);
+    loadSettings();
+    reset();
+    setObjectType();
+}
+
+function toggleDarkmode() {
+    if (darkModeCheck.checked) {
+        // Dark mode
+        root.style.setProperty('--html-color', '#1a1a1a');
+        root.style.setProperty('--bg-color-one', '#17181a');
+        root.style.setProperty('--bg-color-two', '#2d2d2d');
+        root.style.setProperty('--invert-percentage', '100%');
+        root.style.setProperty('--text-color', '#dddddd');
+        root.style.setProperty('--input-bg-color', '#333');
+        root.style.setProperty('--input-text-color', '#fff');
+        root.style.setProperty('--input-border-color', '#555');
+        root.style.setProperty('--button-hover-percentage', '115%');
+    } else {
+        // Light mode
+        root.style.setProperty('--html-color', '#ffffff');
+        root.style.setProperty('--bg-color-one', '#d5e4f3');
+        root.style.setProperty('--bg-color-two', '#ffffff');
+        root.style.setProperty('--invert-percentage', '0%');
+        root.style.setProperty('--text-color', '#000000');
+        root.style.setProperty('--input-bg-color', '#fff');
+        root.style.setProperty('--input-text-color', '#333');
+        root.style.setProperty('--input-border-color', '#ccc');
+        root.style.setProperty('--button-hover-percentage', '90%');
+    }
+    // Reload images
+    document.body.offsetHeight;
+}
+
+function toggleSpice() {
+    if (addSpice.checked) {
+        root.style.setProperty('--spice-visibility', 'visible');
+    } else {
+        root.style.setProperty('--spice-visibility', 'hidden');
+    }
+}
+
+function setSpiceColor() {
+    root.style.setProperty('--spice-color', spiceColorPicker.value);
+}
+
+function flipCard(event) {
+    if (!settingsOpen) {
+        card.style.transform = 'rotateY(180deg)';
+        settingsOpen = true;
+    } else {
+        card.style.transform = 'rotateY(0deg)';
+        settingsOpen = false;
+    }
+}
+
 function reset() {
     objectIdInput.value = '';
     objectNameInput.value = '';
@@ -120,10 +201,16 @@ function resetError() {
 }
 
 function setErrorMsg(objectType) {
-    errorState = true;
-    const object = objectType.charAt(0).toUpperCase() + objectType.slice(1);
-    errorMsg.textContent = object + " ID doens't exist";
-    errorMsg.classList.add('appear');
+    if (objectType) {
+        errorState = true;
+        const object = objectType.charAt(0).toUpperCase() + objectType.slice(1);
+        errorMsg.textContent = object + " ID doens't exist";
+        errorMsg.classList.add('appear');
+    } else {
+        errorState = true;
+        errorMsg.textContent = "Object ID cannot be empty";
+        errorMsg.classList.add('appear');
+    }
 }
 
 function setObjectType() {
@@ -244,7 +331,10 @@ function OpenURL() {
     const objectTypeValue = objectTypeInput.value;
     const objectIdValue = objectIdInput.value.trim();
 
-    if ((objectIdValue === '') || errorState ) {
+    if (objectIdValue === '') {
+        setErrorMsg();
+    }
+    if (errorState) {
         return;
     }
 

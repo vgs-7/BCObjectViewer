@@ -1,134 +1,112 @@
+:root {
+    --html-color: #ffffff;
+    --bg-color-one: #d5e4f3;
+    --bg-color-two: #ffffff;
+    --invert-percentage: 0%;
+    --text-color: #000000;
+    --input-bg-color: #ffffff;
+    --input-text-color: #000000;
+    --input-border-color: #000000;
+    --spice-color: #018ea7;
+    --button-hover-percentage: 90%;
+    --spice-visibility: hidden;
+}
+
 html {
-    background: #ffffff;
+    background-color: var(--html-color);
+    color: var(--text-color);
 }
-h2 {
-    text-align: center;
-}
+
 body {
-    font-family: Arial, sans-serif;
-    width: 220px;
     display: flex;
-    border-radius: 20px;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    margin: 5px;
+    overflow: hidden;
 }
 
 .container {
-    width: 90%;
-    height: 90%;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    justify-content: center;
-    border: #f4f6f7 1px solid;
-    padding: 10px;
-    background: linear-gradient(
-        to bottom left,
-        #ebeff3 0%,
-        #ffffff 100%
-        );
-    border-radius: 5px;
-    transition: box-shadow 0.3s ease-in-out;
-    perspective: 1000px;
-    /* transform-style: preserve-3d;
-    overflow: hidden; */
+    perspective: 3000px;
 }
-.container:hover {
-    box-shadow: 0px 0px 4px 0px #a1a3a4;
+
+.card {
+    width: 220px;
+    height: 310px;
+    transition: transform 0.7s;
+    transform-style: preserve-3d;
+}
+
+.card-back,
+.card-front {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    background: linear-gradient(to bottom left,
+            var(--bg-color-one) 0%,
+            var(--bg-color-two) 100%);
     transition: box-shadow 0.3s ease-in-out;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    backface-visibility: hidden;
-    transition: transform 0.6s;
+.card-front:hover,
+.card-back:hover {
+    box-shadow: 0px 0px 5px 0px #7b7e80;
+    transition: box-shadow 0.2s ease-in-out;
 }
-.content.back {
+
+.card-back {
     transform: rotateY(180deg);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 }
 
 .settings-icon {
     position: absolute;
-    top: 5px;
     right: 5px;
+    top: 5px;
     width: 15px;
     cursor: pointer;
+    filter: invert(var(--invert-percentage));
 }
 
-.spice {
+.save-icon {
     position: absolute;
-    left: calc(5% - 12px);
-    width: 1px;
-    bottom: 0px;
-    height: 0px;
-    background: linear-gradient( to bottom,
-        rgba(61, 188, 210, 0),
-        rgb(1, 142, 167),
-        rgb(61, 188, 210, 0)
-        );
-    transition: height 0.3s, top 0.5s;
+    right: 5px;
+    top: 5px;
+    width: 20px;
+    cursor: pointer;
+    filter: invert(var(--invert-percentage));
 }
-.spice2 {
-    position: absolute;
-    left: calc(95% + 12px);
-    width: 1px;
-    top: 0px;
-    height: 0px;
-    background: linear-gradient( to bottom,
-        rgba(61, 188, 210, 0),
-        rgb(1, 142, 167),
-        rgb(61, 188, 210, 0)
-        );
-    transition: height 0.3s, top 0.5s;
-}
-.spice3 {
-    position: absolute;
-    left: 50%;
-    width: 0px;
-    bottom: -1px;
-    height: 1px;
-    background: linear-gradient( to left,
-        rgba(61, 188, 210, 0),
-        rgb(1, 142, 167),
-        rgb(61, 188, 210, 0)
-        );
-    transition: width 0.3s, left 0.3s;
-}
-.container:hover .spice {
-    height: 150px;
-    bottom: calc(50% - 75px);
-}
-.container:hover .spice2 {
-    height: 150px;
-    top: calc(50% - 75px);
-}
-button:hover + .spice3 {
-    width: 150px;
-    left: calc(50% - 75px);
+
+h2 {
+    align-self: center;
+    margin: 10px 0px 5px 0px;
 }
 
 label {
-    display: block;
-    padding-bottom: 5px;
-    margin-top: 10px;
+    padding: 10px 0px 5px 0px;
 }
+
 select,
 input {
     align-self: center;
     width: 100%;
     padding: 5px 5px;
+    background-color: var(--input-bg-color);
+    color: var(--input-text-color);
+    /* border-color: var(--input-border-color); */
+    border: 1px solid #363636;
+    border-radius: 3px;
 }
+
 select:hover {
     cursor: pointer;
 }
+
 input {
     width: 95%;
 }
@@ -136,29 +114,34 @@ input {
 .error-message {
     opacity: 0;
     color: #f65265;
-    font-weight: 700;
+    font-weight: 500;
     align-self: center;
     margin: 4px;
     padding: 0px;
     font-size: .8rem;
     animation: disappear 0.3s ease-in-out;
 }
+
 @keyframes disappear {
     0% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
     }
 }
+
 .error-message.appear {
     opacity: 1;
     animation: appear 0.3s ease-in-out;
 }
+
 @keyframes appear {
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
@@ -168,14 +151,36 @@ button {
     align-self: center;
     padding: 10px;
     width: 95%;
+    background-color: var(--input-bg-color);
+    border: 1px solid #363636;
+    transition: filter 0.2s ease-in-out;
+    border-radius: 3px;
+    color: var(--input-text-color);
 }
+
 button:hover {
     cursor: pointer;
+    filter: brightness(var(--button-hover-percentage));
+}
+
+.horizontal-option {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.horizontal-checkbox {
+    width: 20px;
+}
+
+.horizontal-label {
+    padding: 10px 0px 10px 0px;
 }
 
 .dropdown-container {
     position: relative;
 }
+
 .dropdown-content {
     position: absolute;
     background-color: #f9f9f9;
@@ -184,15 +189,61 @@ button:hover {
     z-index: 1;
     width: 100%;
 }
+
 .dropdown-item {
     padding: 5px;
     cursor: pointer;
 }
+
 .dropdown-item:hover {
     background-color: #f0f0f0;
     font-weight: bold;
 }
+
 .selected {
     background-color: #f0f0f0;
     font-weight: bold;
+}
+
+.spice {
+    position: absolute;
+    left: calc(5% - 12px);
+    width: 1px;
+    bottom: 0px;
+    height: 0px;
+    visibility: var(--spice-visibility);
+    background: linear-gradient(to bottom,
+            rgba(61, 188, 210, 0),
+            var(--spice-color),
+            rgb(61, 188, 210, 0));
+    transition: height 0.3s, top 0.5s;
+}
+
+.spice2 {
+    position: absolute;
+    left: calc(95% + 12px);
+    width: 1px;
+    top: 0px;
+    height: 0px;
+    visibility: var(--spice-visibility);
+    background: linear-gradient(to bottom,
+            rgba(61, 188, 210, 0),
+            var(--spice-color),
+            rgb(61, 188, 210, 0));
+    transition: height 0.3s, top 0.5s;
+}
+
+.card:hover .spice {
+    height: 150px;
+    bottom: calc(25% - 75px);
+}
+
+.card:hover .spice2 {
+    height: 150px;
+    top: calc(25% - 75px);
+}
+
+.colorLabel,
+.colorPicker {
+    visibility: var(--spice-visibility);
 }
