@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "BC Object Viewer v4",
-  "version": "1.0",
+  "name": "BC Object Viewer v2",
+  "version": "2.0",
   "description": "A Chrome extension to open BC objects in a new tab",
   "permissions": ["tabs"],
   "action": {
