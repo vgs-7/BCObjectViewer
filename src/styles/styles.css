@@ -10,6 +10,7 @@
     --spice-color: #018ea7;
     --button-hover-percentage: 90%;
     --spice-visibility: hidden;
+    --dropdown-selected-bg: #cecece;
 }
 
 html {
@@ -183,7 +184,8 @@ button:hover {
 
 .dropdown-content {
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: var(--html-color);
+    color: var(--input-text-color);
     max-height: 150px;
     overflow-y: auto;
     z-index: 1;
@@ -196,12 +198,12 @@ button:hover {
 }
 
 .dropdown-item:hover {
-    background-color: #f0f0f0;
+    background-color: var(--dropdown-selected-bg);
     font-weight: bold;
 }
 
 .selected {
-    background-color: #f0f0f0;
+    background-color: var(--dropdown-selected-bg);
     font-weight: bold;
 }
 
