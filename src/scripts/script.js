@@ -140,7 +140,7 @@ function saveSettings() {
 function toggleDarkmode() {
     if (darkModeCheck.checked) {
         // Dark mode
-        root.style.setProperty('--html-color', '#000000');
+        root.style.setProperty('--html-color', '#1a1a1a');
         root.style.setProperty('--bg-color-one', '#17181a');
         root.style.setProperty('--bg-color-two', '#2d2d2d');
         root.style.setProperty('--invert-percentage', '100%');

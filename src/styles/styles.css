@@ -13,7 +13,7 @@
 }
 
 html {
-    /* background-color: var(--html-color); */
+    background-color: var(--html-color);
     color: var(--text-color);
 }
 
