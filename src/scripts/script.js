@@ -149,6 +149,7 @@ function toggleDarkmode() {
         root.style.setProperty('--input-text-color', '#fff');
         root.style.setProperty('--input-border-color', '#555');
         root.style.setProperty('--button-hover-percentage', '115%');
+        root.style.setProperty('--dropdown-selected-bg', '#505050');
     } else {
         // Light mode
         root.style.setProperty('--html-color', '#ffffff');
@@ -160,6 +161,7 @@ function toggleDarkmode() {
         root.style.setProperty('--input-text-color', '#333');
         root.style.setProperty('--input-border-color', '#ccc');
         root.style.setProperty('--button-hover-percentage', '90%');
+        root.style.setProperty('--dropdown-selected-bg', '#cecece');
     }
     // Reload images
     document.body.offsetHeight;
