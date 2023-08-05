@@ -6,26 +6,50 @@
     </head>
     <body>
         <div class="container">
-            <img src="../icons/settings.png" class="settings-icon" id="settingsButton"/>
-            <div class="spice"></div>
-            <div class="spice2"></div>
-            <h2>BC Object Viewer</h2>
-            <label for="objectType">Object Type:</label>
-            <select id="objectType">
-                <option value="table">Table</option>
-                <option value="page">Page</option>
-                <option value="report">Report</option>
-            </select>
-            <label for="objectName">Object Name:</label>
-            <input type="text" id="objectName" placeholder="Object Name" />
-            <div class="dropdown-container">
-                <div class="dropdown-content" id="nameDropdown"></div>
-            </div>
-            <label for="objectId">Object ID:</label>
-            <input type="text" id="objectId" placeholder="Object ID" />
-            <span id="objectIdError" class="error-message">-</span>
-            <button id="openButton">Open</button>
-            <div class="spice3"></div>
+            <div class="card" id="card">
+                <div class="spice"></div>
+                <div class="spice2"></div>
+                <div class="card-front">
+                    <img src="../icons/settings.png" class="settings-icon" id="settingsButton" />
+                    <h2>BC Object Viewer</h2>
+                    <label>Object Type:</label>
+                    <select id="objectType">
+                        <option value="table">Table</option>
+                        <option value="page">Page</option>
+                        <option value="report">Report</option>
+                    </select>
+                    <label>Object Name:</label>
+                    <input type="text" id="objectName" placeholder="Object Name" />
+                    <div class="dropdown-container">
+                        <div class="dropdown-content" id="nameDropdown"></div>
+                    </div>
+                    <label>Object ID:</label>
+                    <input type="text" id="objectId" placeholder="Object ID" />
+                    <span id="objectIdError" class="error-message">-</span>
+                    <button id="openButton">Open</button>
+                    <div class="spice3"></div>
+                </div>
+                <div class="card-back">
+                    <img src="../icons/save.png" class="save-icon" id="saveButton" />
+                    <h2>Settings</h2>
+                    <label>Default Object Type:</label>
+                    <select id="defaultObjectType">
+                        <option value="table">Table</option>
+                        <option value="page">Page</option>
+                        <option value="report">Report</option>
+                    </select>
+                    <div class="horizontal-option">
+                        <label class="horizontal-label">Dark mode</label>
+                        <input type="checkbox" id="darkMode" class="horizontal-checkbox" />
+                    </div>
+                    <div class="horizontal-option">
+                        <label class="horizontal-label">Add spice</label>
+                        <input type="checkbox" id="addSpiceCheck" class="horizontal-checkbox" />
+                    </div>
+                    <label class="colorLabel">Select a color:</label>
+                    <input type="color" id="colorPicker" name="colorPicker" class="colorPicker">
+                
+                </div>
         </div>
     </body>
     <script type="module" src="../scripts/script.js"></script>
