@@ -184,12 +184,29 @@ button:hover {
     margin: 0px;
 }
 
-.colorLabel {
+.colorPicker-button,
+.colorPicker-label {
+    visibility: var(--spice-visibility);
+}
+
+.colorPicker-button {
     flex: 0.5;
+    margin: 10px 0px;
+    padding: 0px;
+    background-color: var(--spice-color);
+    border-radius: 5px;
+}
+
+.colorPicker-text {
+    opacity: 0;
 }
 
 .colorPicker {
-    flex: 0.5;
+    visibility: hidden;
+    position: absolute;
+    left: 1px;
+    top: 190px;
+    padding: 0px;
 }
 
 .horizontal-label {
@@ -312,9 +329,4 @@ button:hover+.spice3 {
     100% {
         top: calc(30% - 75px);
     }
-}
-
-.colorPicker,
-.colorPicker-label {
-    visibility: var(--spice-visibility);
 }

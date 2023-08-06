@@ -18,11 +18,13 @@ const defaultObjectType = document.getElementById('defaultObjectType');
 const darkModeCheck = document.getElementById('darkMode');
 const addSpice = document.getElementById('addSpiceCheck');
 const spiceColorPicker = document.getElementById('colorPicker');
+const spiceColorPickerButton = document.getElementById('colorPickerButton');
 const nameDropdown = document.getElementById('nameDropdown');
 let selectedDropdownItem = -1;
 let filteredNames = [];
 let errorState = false;
 let settingsOpen = false;
+let colorPickerOpen = false;
 
 loadSettings();
 
@@ -39,6 +41,15 @@ settingsButton.addEventListener('mouseleave', function () {
     if (addSpice.checked) {
         settingsButton.style.animation = 'none';
     }
+});
+
+spiceColorPickerButton.addEventListener('click', () => {
+    if (colorPickerOpen) {
+        spiceColorPicker.blur();
+    } else {
+        spiceColorPicker.click();
+    }
+    colorPickerOpen = !colorPickerOpen;
 });
 
 saveButton.addEventListener('click', () => {
@@ -112,6 +123,10 @@ document.addEventListener('click', function (event) {
         selectClickedDropdownItem(event);
     } else {
         closeDropdown();
+    }
+    if (colorPickerOpen && !spiceColorPickerButton.contains(event.target)) {
+        spiceColorPicker.blur();
+        colorPickerOpen = false;
     }
 });
 
