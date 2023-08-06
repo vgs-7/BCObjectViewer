@@ -314,7 +314,7 @@ button:hover+.spice3 {
     }
 }
 
-.colorLabel,
-.colorPicker {
+.colorPicker,
+.colorPicker-label {
     visibility: var(--spice-visibility);
 }
