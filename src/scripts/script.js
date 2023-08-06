@@ -29,6 +29,18 @@ loadSettings();
 // Event Listeners
 settingsButton.addEventListener('click', flipCard);
 
+settingsButton.addEventListener('mouseenter', function () {
+    if (addSpice.checked) {
+        settingsButton.style.animation = 'rotate 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    }
+});
+
+settingsButton.addEventListener('mouseleave', function () {
+    if (addSpice.checked) {
+        settingsButton.style.animation = 'none';
+    }
+});
+
 saveButton.addEventListener('click', () => {
     saveSettings();
     flipCard();

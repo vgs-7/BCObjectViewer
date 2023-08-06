@@ -65,22 +65,31 @@ body {
     transform: rotateY(180deg);
 }
 
+.save-icon,
 .settings-icon {
     position: absolute;
     right: 5px;
     top: 5px;
-    width: 15px;
     cursor: pointer;
     filter: invert(var(--invert-percentage));
 }
 
+.settings-icon {
+    width: 15px;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(120deg);
+    }
+}
+
 .save-icon {
-    position: absolute;
-    right: 5px;
-    top: 5px;
     width: 20px;
-    cursor: pointer;
-    filter: invert(var(--invert-percentage));
 }
 
 h2 {
@@ -99,7 +108,6 @@ input {
     padding: 5px 5px;
     background-color: var(--input-bg-color);
     color: var(--input-text-color);
-    /* border-color: var(--input-border-color); */
     border: 1px solid #363636;
     border-radius: 3px;
 }
@@ -172,6 +180,16 @@ button:hover {
 
 .horizontal-checkbox {
     width: 20px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.colorLabel {
+    flex: 0.5;
+}
+
+.colorPicker {
+    flex: 0.5;
 }
 
 .horizontal-label {
@@ -207,42 +225,93 @@ button:hover {
     font-weight: bold;
 }
 
-.spice {
+.spice,
+.spice2 {
     position: absolute;
-    left: calc(5% - 12px);
     width: 1px;
-    bottom: 0px;
     height: 0px;
     visibility: var(--spice-visibility);
     background: linear-gradient(to bottom,
             rgba(61, 188, 210, 0),
             var(--spice-color),
             rgb(61, 188, 210, 0));
-    transition: height 0.3s, top 0.5s;
+}
+
+.spice {
+    left: calc(5% - 12px);
+    bottom: 0px;
+    transition: height 0.3s;
 }
 
 .spice2 {
-    position: absolute;
     left: calc(95% + 12px);
-    width: 1px;
     top: 0px;
-    height: 0px;
+    transition: height 0.3s;
+}
+
+.spice3 {
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    height: 1px;
+    width: 0px;
     visibility: var(--spice-visibility);
-    background: linear-gradient(to bottom,
+    background: linear-gradient(to right,
             rgba(61, 188, 210, 0),
             var(--spice-color),
             rgb(61, 188, 210, 0));
-    transition: height 0.3s, top 0.5s;
+    transition: width 0.5s, left 0.5s;
+}
+
+button:hover+.spice3 {
+    width: 100px;
+    left: calc(50% - 50px);
 }
 
 .card:hover .spice {
     height: 150px;
-    bottom: calc(25% - 75px);
+    animation: jump-up 3s ease-in-out;
 }
 
 .card:hover .spice2 {
     height: 150px;
-    top: calc(25% - 75px);
+    animation: fall-down 3s ease-in-out;
+}
+
+@keyframes jump-up {
+    0% {
+        bottom: 0px;
+    }
+
+    60% {
+        bottom: calc(40% - 75px);
+    }
+
+    95% {
+        bottom: calc(25% - 75px);
+    }
+
+    100% {
+        bottom: calc(30% - 75px);
+    }
+}
+
+@keyframes fall-down {
+    0% {
+        top: 0px;
+    }
+
+    60% {
+        top: calc(40% - 75px);
+    }
+
+    95% {
+        top: calc(25% - 75px);
+    }
+
+    100% {
+        top: calc(30% - 75px);
+    }
 }
 
 .colorLabel,
