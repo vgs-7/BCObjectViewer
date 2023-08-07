@@ -11,6 +11,9 @@
                 <div class="spice2"></div>
                 <div class="card-front">
                     <img src="../icons/settings.png" class="settings-icon" id="settingsButton" />
+                    <img src="../icons/copied.png" class="copied-icon" id="copiedIcon" />
+                    <img src="../icons/copy.png" class="copy-icon" id="copyButton" />
+                    <div class="copy-text" id="copyText">Copy</div>
                     <h2>BC Object Viewer</h2>
                     <label>Object Type:</label>
                     <select id="objectType">
@@ -33,12 +36,16 @@
                     <img src="../icons/save.png" class="save-icon" id="saveButton" />
                     <h2>Settings</h2>
                     <label>Default Object Type:</label>
-                    <select id="defaultObjectType">
+                    <select id="defaultObjectType" class="defaultObjectType">
                         <option value="table">Table</option>
                         <option value="page">Page</option>
                         <option value="report">Report</option>
                     </select>
                     <div class="horizontal-option">
+                        <label class="horizontal-label">Verify Object ID</label>
+                        <input type="checkbox" id="verifyObjectId" class="horizontal-checkbox" />
+                        </div>
+                        <div class="horizontal-option">
                         <label class="horizontal-label">Dark mode</label>
                         <input type="checkbox" id="darkMode" class="horizontal-checkbox" />
                     </div>
@@ -54,11 +61,12 @@
                             </span>
                         </button>
                     </div>
+                    <span class="copyright">&copy; Vincent Goessens - 2023</span>
                 </div>
             </div>
         </div>
     </body>
-    <input type="color" id="colorPicker" name="colorPicker" class="colorPicker" />    
+    <input type="color" id="colorPicker" name="colorPicker" class="colorPicker" />
     <script type="module" src="../scripts/script.js"></script>
     <script type="module" src="../data/tables.js"></script>
     <script type="module" src="../data/pages.js"></script>

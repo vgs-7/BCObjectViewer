@@ -15,16 +15,21 @@ const openButton = document.getElementById('openButton');
 const card = document.getElementById('card');
 const saveButton = document.getElementById('saveButton');
 const defaultObjectType = document.getElementById('defaultObjectType');
+const verifyObjectId = document.getElementById('verifyObjectId');
 const darkModeCheck = document.getElementById('darkMode');
 const addSpice = document.getElementById('addSpiceCheck');
 const spiceColorPicker = document.getElementById('colorPicker');
 const spiceColorPickerButton = document.getElementById('colorPickerButton');
 const nameDropdown = document.getElementById('nameDropdown');
+const copyButton = document.getElementById('copyButton');
+const copyText = document.getElementById('copyText');
+const copiedIcon = document.getElementById('copiedIcon');
 let selectedDropdownItem = -1;
 let filteredNames = [];
 let errorState = false;
 let settingsOpen = false;
 let colorPickerOpen = false;
+let copyClicked = false;
 
 loadSettings();
 
@@ -41,6 +46,27 @@ settingsButton.addEventListener('mouseleave', function () {
     if (addSpice.checked) {
         settingsButton.style.animation = 'none';
     }
+});
+
+copiedIcon.addEventListener('mouseenter', function () {
+    copyText.style.opacity = 1;
+});
+copiedIcon.addEventListener('mouseleave', function () {
+    if (!copyClicked) {
+        copyText.style.opacity = 0;
+    }
+});
+copyButton.addEventListener('mouseenter', function () {
+    copyText.style.opacity = 1;
+});
+copyButton.addEventListener('mouseleave', function () {
+    if (!copyClicked) {
+        copyText.style.opacity = 0;
+    }
+});
+
+copyButton.addEventListener('click', function () {
+    copyObjectToClipboard();
 });
 
 spiceColorPickerButton.addEventListener('click', () => {
@@ -142,6 +168,12 @@ function loadSettings() {
         objectTypeInput.value = defaultObjectTypeValue;
         setObjectType();
     }
+    const verifyObjectIdValue = localStorage.getItem('verifyObjectId');
+    if (verifyObjectIdValue !== null) {
+        verifyObjectId.checked = verifyObjectIdValue === 'true';
+    } else {
+        verifyObjectId.checked = true;
+    }
     darkModeCheck.checked = localStorage.getItem('darkMode') === 'true';
     toggleDarkmode();
     addSpice.checked = localStorage.getItem('addSpice') === 'true';
@@ -156,6 +188,7 @@ function loadSettings() {
 
 function saveSettings() {
     localStorage.setItem('defaultObjectType', defaultObjectType.value);
+    localStorage.setItem('verifyObjectId', verifyObjectId.checked);
     localStorage.setItem('darkMode', darkModeCheck.checked);
     localStorage.setItem('addSpice', addSpice.checked);
     localStorage.setItem('spiceColor', spiceColorPicker.value);
@@ -180,7 +213,7 @@ function toggleDarkmode() {
     } else {
         // Light mode
         root.style.setProperty('--html-color', '#ffffff');
-        root.style.setProperty('--bg-color-one', '#d5e4f3');
+        root.style.setProperty('--bg-color-one', '#dadfe6');
         root.style.setProperty('--bg-color-two', '#ffffff');
         root.style.setProperty('--invert-percentage', '0%');
         root.style.setProperty('--text-color', '#000000');
@@ -214,6 +247,25 @@ function flipCard(event) {
         card.style.transform = 'rotateY(0deg)';
         settingsOpen = false;
     }
+}
+
+function copyObjectToClipboard() {
+    copyClicked = true;
+    var copyObjectType = objectTypeInput.value;
+    var copyObjectName = objectNameInput.value;
+    var copyObjectId = objectIdInput.value;
+    navigator.clipboard.writeText(copyObjectType + ': "' + copyObjectName + '" (' + copyObjectId + ')');
+    copiedIcon.style.visibility = 'visible';
+    copyButton.style.visibility = 'hidden';
+    copyText.textContent = 'Copied!';
+    copyText.style.opacity = 1;
+    setTimeout(function () {
+        copiedIcon.style.visibility = 'hidden';
+        copyButton.style.visibility = 'visible';
+        copyText.style.opacity = 0;
+        copyText.textContent = 'Copy';
+        copyClicked = false;
+    }, 2000);
 }
 
 function reset() {
@@ -360,11 +412,13 @@ function OpenURL() {
     const objectTypeValue = objectTypeInput.value;
     const objectIdValue = objectIdInput.value.trim();
 
-    if (objectIdValue === '') {
-        setErrorMsg();
-    }
-    if (errorState) {
-        return;
+    if (verifyObjectId.checked) {
+        if (objectIdValue === '') {
+            setErrorMsg();
+        }
+        if (errorState) {
+            return;
+        }
     }
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
