@@ -7,6 +7,9 @@ var objects = tables;
 // Global variables
 const root = document.documentElement;
 const settingsButton = document.getElementById('settingsButton');
+const copyButton = document.getElementById('copyButton');
+const copyText = document.getElementById('copyText');
+const copiedIcon = document.getElementById('copiedIcon');
 const objectTypeInput = document.getElementById('objectType');
 const objectNameInput = document.getElementById('objectName');
 const objectIdInput = document.getElementById('objectId');
@@ -21,9 +24,7 @@ const addSpice = document.getElementById('addSpiceCheck');
 const spiceColorPicker = document.getElementById('colorPicker');
 const spiceColorPickerButton = document.getElementById('colorPickerButton');
 const nameDropdown = document.getElementById('nameDropdown');
-const copyButton = document.getElementById('copyButton');
-const copyText = document.getElementById('copyText');
-const copiedIcon = document.getElementById('copiedIcon');
+const copyRightText = document.querySelector('.copyright');
 let selectedDropdownItem = -1;
 let filteredNames = [];
 let errorState = false;
@@ -31,10 +32,17 @@ let settingsOpen = false;
 let colorPickerOpen = false;
 let copyClicked = false;
 
-loadSettings();
+init()
 
 // Event Listeners
 settingsButton.addEventListener('click', flipCard);
+
+settingsButton.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+        flipCard();
+        saveButton.focus();
+    }
+});
 
 settingsButton.addEventListener('mouseenter', function () {
     if (addSpice.checked) {
@@ -161,6 +169,14 @@ addSpice.addEventListener('change', toggleSpice);
 spiceColorPicker.addEventListener('input', setSpiceColor);
 
 // Functions
+function init() {
+    loadSettings();
+    var currentDate = new Date();
+    var currentYear = currentDate.getFullYear();
+    copyRightText.innerHTML = '© Vincent Goessens - 2023-' + currentYear;
+    objectNameInput.focus();
+}
+
 function loadSettings() {
     const defaultObjectTypeValue = localStorage.getItem('defaultObjectType');
     if (defaultObjectTypeValue !== null) {
@@ -209,19 +225,19 @@ function toggleDarkmode() {
         root.style.setProperty('--input-text-color', '#fff');
         root.style.setProperty('--input-border-color', '#555');
         root.style.setProperty('--button-hover-percentage', '115%');
-        root.style.setProperty('--dropdown-selected-bg', '#505050');
+        root.style.setProperty('--dropdown-selected-bg', '#292929');
     } else {
         // Light mode
-        root.style.setProperty('--html-color', '#ffffff');
-        root.style.setProperty('--bg-color-one', '#dadfe6');
-        root.style.setProperty('--bg-color-two', '#ffffff');
+        root.style.setProperty('--html-color', '#fdffff');
+        root.style.setProperty('--bg-color-one', '#fdffff');
+        root.style.setProperty('--bg-color-two', '#f5feff');
         root.style.setProperty('--invert-percentage', '0%');
         root.style.setProperty('--text-color', '#000000');
         root.style.setProperty('--input-bg-color', '#fff');
         root.style.setProperty('--input-text-color', '#333');
         root.style.setProperty('--input-border-color', '#ccc');
-        root.style.setProperty('--button-hover-percentage', '90%');
-        root.style.setProperty('--dropdown-selected-bg', '#cecece');
+        root.style.setProperty('--button-hover-percentage', '95%');
+        root.style.setProperty('--dropdown-selected-bg', '#e9eff0');
     }
     // Reload images
     document.body.offsetHeight;
@@ -282,6 +298,9 @@ function resetError() {
 }
 
 function setErrorMsg(objectType) {
+    if (!verifyObjectId.checked) {
+        return;
+    }
     if (objectType) {
         errorState = true;
         const object = objectType.charAt(0).toUpperCase() + objectType.slice(1);
@@ -303,6 +322,7 @@ function setObjectType() {
     } else if (selectedObjectType === 'report') {
         objects = reports;
     }
+    objectNameInput.focus();
 }
 
 function validateObjectId(event) {
@@ -326,6 +346,7 @@ function openDropdown(event) {
     closeDropdown();
     const inputText = event.target.value.trim().toLowerCase();
     filteredNames = objects.filter(item => isWildcardMatch(item.name.toLowerCase(), inputText));
+    filteredNames.sort((a, b) => a.name.length - b.name.length);
     const results = filteredNames.slice(0, 5);
 
     results.forEach(item => {
@@ -412,6 +433,11 @@ function OpenURL() {
     const objectTypeValue = objectTypeInput.value;
     const objectIdValue = objectIdInput.value.trim();
 
+    if (objectIdValue === '') {
+        setErrorMsg();
+        return;
+    }
+
     if (verifyObjectId.checked) {
         if (objectIdValue === '') {
             setErrorMsg();
@@ -425,7 +451,7 @@ function OpenURL() {
         var environmentName = '';
         var companyString = '';
         var tenantString = '';
-        const currentUrl = tabs[0].url;
+        const currentUrl = tabs[0].url.toLowerCase();
         const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/") + 1);
 
         // Environment name
@@ -462,8 +488,9 @@ function OpenURL() {
                 var companyString = currentUrl.substring(companyIndex);
             }
         }
+
         // Tenant
-        const tenantIndex = currentUrl.indexOf("tenant=");
+        const tenantIndex = currentUrl.indexOf("tenant=")
         if (tenantIndex !== -1) {
             const firstAmpersandIndex = currentUrl.indexOf("&", tenantIndex);
             if (firstAmpersandIndex !== -1) {

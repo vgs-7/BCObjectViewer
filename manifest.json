@@ -1,13 +1,15 @@
 {
   "manifest_version": 3,
   "name": "BC Object Viewer",
-  "version": "2.0",
-  "description": "A Chrome extension to open BC objects in a new tab",
+  "version": "2.1",
+  "description": "Easily open Microsoft Dynamics 365 Business Central objects in a new tab with a few clicks using the BC Object Viewer",
   "permissions": ["tabs"],
   "action": {
     "default_popup": "src/html/popup.html"
   },
   "icons": {
-    "48": "src/icons/icon.png"
+    "16": "src/icons/icon16.png",
+    "48": "src/icons/icon48.png",
+    "128": "src/icons/icon128.png"
   }
 }

@@ -10,58 +10,58 @@
                 <div class="spice"></div>
                 <div class="spice2"></div>
                 <div class="card-front">
-                    <img src="../icons/settings.png" class="settings-icon" id="settingsButton" />
                     <img src="../icons/copied.png" class="copied-icon" id="copiedIcon" />
-                    <img src="../icons/copy.png" class="copy-icon" id="copyButton" />
+                    <img src="../icons/copy.png" class="copy-icon" id="copyButton" tabindex="1" />
+                    <img src="../icons/settings.png" class="settings-icon" id="settingsButton" tabindex="2" />
                     <div class="copy-text" id="copyText">Copy</div>
                     <h2>BC Object Viewer</h2>
                     <label>Object Type:</label>
-                    <select id="objectType">
+                    <select id="objectType" tabindex="3">
                         <option value="table">Table</option>
                         <option value="page">Page</option>
                         <option value="report">Report</option>
                     </select>
                     <label>Object Name:</label>
-                    <input type="text" id="objectName" placeholder="Object Name" />
+                    <input type="text" id="objectName" placeholder="Object Name" tabindex="4" />
                     <div class="dropdown-container">
                         <div class="dropdown-content" id="nameDropdown"></div>
                     </div>
                     <label>Object ID:</label>
-                    <input type="text" id="objectId" placeholder="Object ID" />
+                    <input type="text" id="objectId" placeholder="Object ID" tabindex="4" />
                     <span id="objectIdError" class="error-message">-</span>
                     <button id="openButton">Open</button>
                     <div class="spice3"></div>
                 </div>
                 <div class="card-back">
-                    <img src="../icons/save.png" class="save-icon" id="saveButton" />
+                    <img src="../icons/save.png" class="save-icon" id="saveButton" tabindex="5" />
                     <h2>Settings</h2>
                     <label>Default Object Type:</label>
-                    <select id="defaultObjectType" class="defaultObjectType">
+                    <select id="defaultObjectType" class="defaultObjectType" tabindex="6">
                         <option value="table">Table</option>
                         <option value="page">Page</option>
                         <option value="report">Report</option>
                     </select>
                     <div class="horizontal-option">
-                        <label class="horizontal-label">Verify Object ID</label>
-                        <input type="checkbox" id="verifyObjectId" class="horizontal-checkbox" />
+                        <label class="horizontal-label">Check if the object exists</label>
+                        <input type="checkbox" id="verifyObjectId" class="horizontal-checkbox" tabindex="7" />
                         </div>
                         <div class="horizontal-option">
                         <label class="horizontal-label">Dark mode</label>
-                        <input type="checkbox" id="darkMode" class="horizontal-checkbox" />
+                        <input type="checkbox" id="darkMode" class="horizontal-checkbox" tabindex="8" />
                     </div>
                     <div class="horizontal-option">
                         <label class="horizontal-label">Effects</label>
-                        <input type="checkbox" id="addSpiceCheck" class="horizontal-checkbox" />
+                        <input type="checkbox" id="addSpiceCheck" class="horizontal-checkbox" tabindex="9" />
                     </div>
                     <div class="horizontal-option">
                         <label class="colorPicker-label">Change color</label>
-                        <button id="colorPickerButton" class="colorPicker-button">
+                        <button id="colorPickerButton" class="colorPicker-button" tabindex="10">
                             <span class="colorPicker-text">
                                 Pick
                             </span>
                         </button>
                     </div>
-                    <span class="copyright">&copy; Vincent Goessens - 2023</span>
+                    <span class="copyright"></span>
                 </div>
             </div>
         </div>
