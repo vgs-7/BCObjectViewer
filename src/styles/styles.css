@@ -11,6 +11,8 @@
     --dropdown-selected-bg: #e9eff0;
     --spice-color: #018ea7;
     --spice-visibility: hidden;
+    --button-shadow-color: #a1a1a1;
+    --button-border-color: #969696;
 }
 
 html {
@@ -126,6 +128,11 @@ h2 {
     margin: 20px 0px 5px 0px;
 }
 
+.settings-title {
+    align-self: center;
+    margin: 20px 0px 5px 0px;
+}
+
 label {
     padding: 10px 0px 5px 0px;
 }
@@ -187,18 +194,21 @@ input {
 
 button {
     align-self: center;
-    padding: 10px;
+    padding: 10px 0;
     width: 95%;
     background-color: var(--input-bg-color);
-    border: 1px solid #363636;
     transition: filter 0.2s ease-in-out;
     border-radius: 1rem;
     color: var(--input-text-color);
+    box-shadow: 0px 2px 4px 0px var(--button-shadow-color);
+    border: 1px solid var(--button-border-color);
+    transition: box-shadow 0.2s ease-in-out, filter 0.2s ease-in-out;
 }
 
 button:hover {
     cursor: pointer;
     filter: brightness(var(--button-hover-percentage));
+    box-shadow: 0px 1px 3px 0px var(--button-shadow-color);
 }
 
 .horizontal-option {
@@ -208,7 +218,7 @@ button:hover {
 }
 
 .horizontal-checkbox {
-    width: 20px;
+    width: 15px;
     padding: 0px;
     margin: 0px;
 }
@@ -223,7 +233,6 @@ button:hover {
 
 .colorPicker-button {
     flex: 0.5;
-    margin: 10px 0px;
     padding: 0px;
     background-color: var(--spice-color);
     border-radius: 5px;
@@ -375,4 +384,72 @@ button:hover+.spice3 {
 
 .defaultObjectType {
     margin-bottom: 5px;
+}
+
+.coffee-button,
+.coffee-button-qr {
+    background-color: rgb(127, 255, 185);
+}
+
+.coffee-button {
+    flex: 3;
+    margin-right: 10px;
+}
+
+.coffee-button-qr {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.coffee-text {
+    color: rgb(0, 90, 41);
+    font-weight: bold;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.vertical-spacer-5 {
+    height: 5px;
+}
+
+.qrPopup {
+    margin-top: 0px;
+    padding-top: 0px;
+    position: fixed;
+    top: 51%;
+    left: 50%;
+    width: 0%;
+    height: 0%;
+    background-color: var(--bg-color-one);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+    transition:
+        left 0.2s ease,
+        top 0.2s ease,
+        width 0.2s ease,
+        height 0.2s ease;
+    overflow: hidden;
+}
+
+.visible {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.closeQrPopup {
+    margin-top: 5px;
+    background-color: #7fffb9;
 }

@@ -24,18 +24,29 @@ const addSpice = document.getElementById('addSpiceCheck');
 const spiceColorPicker = document.getElementById('colorPicker');
 const spiceColorPickerButton = document.getElementById('colorPickerButton');
 const nameDropdown = document.getElementById('nameDropdown');
-const copyRightText = document.querySelector('.copyright');
+// const copyRightText = document.querySelector('.copyright');
+const secondsSavedLbl = document.getElementById('secondsSavedLbl');
+const coffeeButton = document.getElementById('coffeeButton');
+const coffeeButtonQR = document.getElementById('coffeeButtonQR');
+const closeQrPopup = document.getElementById('closeQrPopup');
+const qrPopup = document.getElementById('qrPopup');
 let selectedDropdownItem = -1;
 let filteredNames = [];
 let errorState = false;
 let settingsOpen = false;
 let colorPickerOpen = false;
 let copyClicked = false;
+let qrPopupVisible = false;
+let secondsSaved = 0;
 
 init()
 
 // Event Listeners
 settingsButton.addEventListener('click', flipCard);
+
+coffeeButton.addEventListener('click', redirectToCoffee);
+coffeeButtonQR.addEventListener('click', toggleQRPopupVisible);
+closeQrPopup.addEventListener('click', toggleQRPopupVisible);
 
 settingsButton.addEventListener('keydown', function (event) {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -173,7 +184,7 @@ function init() {
     loadSettings();
     var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
-    copyRightText.innerHTML = '© Vincent Goessens - 2023-' + currentYear;
+    // copyRightText.innerHTML = '© Vincent Goessens - 2023-' + currentYear;
     objectNameInput.focus();
 }
 
@@ -200,6 +211,8 @@ function loadSettings() {
     }
     spiceColorPicker.value = spiceColor;
     setSpiceColor();
+    secondsSaved = parseInt(localStorage.getItem('secondsSaved') || 0);
+    setTimeSavedLbl();
 }
 
 function saveSettings() {
@@ -208,9 +221,27 @@ function saveSettings() {
     localStorage.setItem('darkMode', darkModeCheck.checked);
     localStorage.setItem('addSpice', addSpice.checked);
     localStorage.setItem('spiceColor', spiceColorPicker.value);
+    localStorage.setItem('secondsSaved', secondsSaved);
     loadSettings();
     reset();
     setObjectType();
+}
+
+function addTimeSaved(seconds) {
+    secondsSaved += seconds;
+    localStorage.setItem('secondsSaved', secondsSaved);
+    setTimeSavedLbl();
+}
+
+function setTimeSavedLbl() {
+    const hours = Math.floor(secondsSaved / 3600);
+    const minutes = Math.floor((secondsSaved % 3600) / 60);
+    const seconds = secondsSaved % 60;
+    let txt;
+    hours > 0 ? txt = hours + 'h ' : txt = '';
+    minutes > 0 ? txt += minutes + 'm ' : '';
+    txt += seconds + 's';
+    secondsSavedLbl.textContent = txt;
 }
 
 function toggleDarkmode() {
@@ -224,8 +255,10 @@ function toggleDarkmode() {
         root.style.setProperty('--input-bg-color', '#333');
         root.style.setProperty('--input-text-color', '#fff');
         root.style.setProperty('--input-border-color', '#555');
-        root.style.setProperty('--button-hover-percentage', '115%');
+        root.style.setProperty('--button-hover-percentage', '110%');
         root.style.setProperty('--dropdown-selected-bg', '#292929');
+        root.style.setProperty('--button-shadow-color', '#141414');
+        root.style.setProperty('--button-border-color', '#363636');
     } else {
         // Light mode
         root.style.setProperty('--html-color', '#fdffff');
@@ -236,8 +269,10 @@ function toggleDarkmode() {
         root.style.setProperty('--input-bg-color', '#fff');
         root.style.setProperty('--input-text-color', '#333');
         root.style.setProperty('--input-border-color', '#ccc');
-        root.style.setProperty('--button-hover-percentage', '95%');
+        root.style.setProperty('--button-hover-percentage', '97%');
         root.style.setProperty('--dropdown-selected-bg', '#e9eff0');
+        root.style.setProperty('--button-shadow-color', '#a1a1a1');
+        root.style.setProperty('--button-border-color', '#969696');
     }
     // Reload images
     document.body.offsetHeight;
@@ -255,7 +290,7 @@ function setSpiceColor() {
     root.style.setProperty('--spice-color', spiceColorPicker.value);
 }
 
-function flipCard(event) {
+function flipCard() {
     if (!settingsOpen) {
         card.style.transform = 'rotateY(180deg)';
         settingsOpen = true;
@@ -265,7 +300,24 @@ function flipCard(event) {
     }
 }
 
+function redirectToCoffee() {
+    saveSettings();
+    chrome.tabs.create({ url: 'https://donate.stripe.com/aEUeYe64AcD04GA4gg' });
+}
+
+function toggleQRPopupVisible() {
+    if (!qrPopupVisible) {
+        qrPopup.classList.add('visible');
+        qrPopupVisible = true;
+    } else {
+        qrPopup.classList.remove('visible');
+        qrPopupVisible = false;
+    }
+}
+
+
 function copyObjectToClipboard() {
+    addTimeSaved(10);
     copyClicked = true;
     var copyObjectType = objectTypeInput.value;
     var copyObjectName = objectNameInput.value;
@@ -499,6 +551,9 @@ function OpenURL() {
                 var tenantString = currentUrl.substring(tenantIndex);
             }
         }
+
+        // Add time saved
+        addTimeSaved(15);
 
         // Create new URL
         var newUrl = baseUrl;
